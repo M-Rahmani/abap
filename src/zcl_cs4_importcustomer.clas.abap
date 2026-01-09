@@ -12,6 +12,10 @@ CLASS zcl_cs4_importcustomer DEFINITION
         CHANGING
           c_Result    TYPE abap_bool
           c_Exception TYPE zcs04_exception,
+      Post_InfoTbl
+        CHANGING
+          c_Result    TYPE abap_bool
+          c_Info TYPE zcs04_info,
       Get_CustomerId
         IMPORTING
           i_Object    TYPE  char10
@@ -331,8 +335,6 @@ CLASS zcl_cs4_importcustomer IMPLEMENTATION.
                    off = 14
                    len = 6 ).
     ENDIF.
-
-
   ENDMETHOD.
 
   METHOD Get_fileData.
@@ -407,6 +409,18 @@ CLASS zcl_cs4_importcustomer IMPLEMENTATION.
     APPEND  VALUE #( sequence = cl_system_uuid=>create_uuid_x16_static( )
                      error_type = i_errtype error_message = i_message local_created_by = sy-uname local_created_at = sy-datum ) TO lt_logTbl04 .
     MODIFY zcs04_logtbl FROM TABLE @lt_logTbl04.
+  ENDMETHOD.
+
+  METHOD post_infotbl.
+    c_Result = abap_True.
+    c_info-client = sy-mandt.
+    c_info-info_id = cl_system_uuid=>create_uuid_x16_static( ).
+    c_info-dates = sy-datlo.
+    c_info-times  = sy-timlo.
+    INSERT zcs04_info FROM @c_info.
+    IF sy-subrc <> 0.
+      c_result  = abap_false.
+    ENDIF.
   ENDMETHOD.
 
 ENDCLASS.

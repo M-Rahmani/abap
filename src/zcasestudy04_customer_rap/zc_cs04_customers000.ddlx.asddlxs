@@ -104,6 +104,9 @@ annotate view ZC_CS04_CUSTOMERS000 with
   @UI.selectionField: [ {
     position: 80 
   } ]
+  @Consumption.valueHelpDefinition: [{
+  entity: { name: 'ZCS04_Countries', element: 'Country' }
+  }]
   Country;
   
   @UI.identification: [ {
@@ -115,6 +118,9 @@ annotate view ZC_CS04_CUSTOMERS000 with
   @UI.selectionField: [ {
     position: 90 
   } ]
+  @Consumption.valueHelpDefinition: [{
+  entity: { name: 'ZCS04_PostCodes', element: 'postcode' }
+  }]
   Postcode;
   
   @UI.identification: [ {

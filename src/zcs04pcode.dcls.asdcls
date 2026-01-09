@@ -1,0 +1,12 @@
+@EndUserText.label: 'Zugriffskontrolle für die PLZ'
+@MappingRole: true
+define role ZCS04PCODE {
+//    grant
+//        select
+//            on
+//                ZCS04CUSTOMERS_R
+//                    where
+//                       Postcode <= '99000' and Postcode >= '99000';
+////                        or entity_element_2 = aspect user;
+//                        
+}

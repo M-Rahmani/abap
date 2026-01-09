@@ -1,0 +1,11 @@
+@EndUserText.label: 'Authorization PLZ'
+@MappingRole: true
+define role ZCS04_AUT_PLZ {
+    grant 
+        select
+            on
+                ZCS04CUSTOMERS_R
+                    where
+                        ( Postcode )  = aspect pfcg_auth( ZCS04AOPLZ, ZCS04AFPLZ, ACTVT = '03' );
+                        
+}

@@ -1,0 +1,10 @@
+@Metadata.layer: #CORE
+annotate entity zcs04cust_orders_r
+    with parameters
+        @EndUserText.label: 'Kundennummer'
+        p_custID
+{
+@EndUserText.label: 'Kundennr.'
+    Customerid;
+    
+}

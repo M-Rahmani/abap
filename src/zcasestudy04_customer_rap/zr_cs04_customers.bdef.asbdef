@@ -6,10 +6,11 @@ define behavior for ZR_CS04_CUSTOMERS alias ZrCs04Customers
 persistent table ZCS04_CUSTOMERS
 extensible
 draft table ZCS04_CSTOMERS_D
+late numbering
 etag master LocalLastChangedAt
 lock master total etag LastChangedAt
 authorization master( global )
-early numbering
+//early numbering
 {
 
   field ( readonly )
@@ -20,7 +21,7 @@ early numbering
    LastChangedAt;
 
   field ( readonly )
-   Customerid, SalesVolumeTarget;
+   Customerid, SalesVolumeTarget, City;
 
   create;
   update;
@@ -29,16 +30,22 @@ early numbering
   side effects { field SalesVolume affects field SalesVolumeTarget;
                  field ChangeRateDate affects field SalesVolumeTarget;
                  field Currency affects field SalesVolumeTarget;
-                 field CurrencyTarget affects field SalesVolumeTarget; }
+                 field CurrencyTarget affects field SalesVolumeTarget;
+                 field Postcode affects field City;}
   draft action Activate optimized;
   draft action Discard;
   draft action Edit;
   draft action Resume;
   draft determine action Prepare;
 
-  determination set_customer_id on save { create; }
+
   validation Read_Salutation_FromList on save { field Salutation; }
+//  validation Read_Cites_FromList on save { field City; }
   determination set_SalesTarget on modify { field SalesVolume, ChangeRateDate, Currency, CurrencyTarget; }
+  validation CheckCountry on save { create; update; field Country; }
+  determination GetCities on modify { field postcode; }
+
+validation validate_email on save { field email; }
 
   mapping for ZCS04_CUSTOMERS corresponding extensible
   {

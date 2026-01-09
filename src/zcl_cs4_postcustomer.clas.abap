@@ -5,6 +5,7 @@ CLASS zcl_cs4_postcustomer DEFINITION
 
   PUBLIC SECTION.
     INTERFACES if_oo_adt_classrun .
+    METHODS : post_customer.
     CONSTANTS:
       gc_error   TYPE abap_char1 VALUE 'E',
       gc_warn    TYPE abap_char1 VALUE 'W',
@@ -21,6 +22,12 @@ CLASS zcl_cs4_postcustomer IMPLEMENTATION.
 
   METHOD if_oo_adt_classrun~main.
 
+    post_customer(  ).
+
+  ENDMETHOD.
+
+
+  METHOD post_customer.
     DATA : lt_logTbl04       TYPE TABLE OF zcs04_logtbl,
            lt_file           TYPE TABLE OF zcs04_filedata,
            ls_source         TYPE zcs04_filedata,
@@ -31,18 +38,20 @@ CLASS zcl_cs4_postcustomer IMPLEMENTATION.
            ls_customer       TYPE  zcs04_customers,
            My_badi           TYPE REF TO zcs4_customer_badi,
            ls_Exception      TYPE zcs04_exception,
+           ls_Info           TYPE zcs04_info,
            Num_PostedRecords TYPE int4
            .
 
     TRY.
-        DELETE FROM zcs04_logtbl.
+        "DELETE FROM zcs04_logtbl.
         "DELETE FROM zcs04_customers.
         "DELETE FROM zcs04_exception .
-        COMMIT WORK.
+        "COMMIT WORK.
         GET BADI My_badi.
         DATA(lo_CheckCustomer) = NEW zcl_cs4_importcustomer( ).
         SELECT company, city, street, postcode, fax, phone, email, memo
-         FROM zcs04_filedata WHERE newpostaddr = @abap_true  INTO CORRESPONDING FIELDS OF TABLE @lt_file.
+         FROM zcs04_filedata WHERE newpostaddr = @abap_true
+          INTO CORRESPONDING FIELDS OF TABLE @lt_file.
         IF sy-subrc IS INITIAL.
 
           LOOP AT lt_file INTO ls_source.
@@ -62,16 +71,16 @@ CLASS zcl_cs4_postcustomer IMPLEMENTATION.
               ls_customer-customerid = i_DuplicateID.
             ELSE.
               TRY.
-                ls_customer-customerid = lo_CheckCustomer->Get_CustomerId(
-                 EXPORTING
-                   i_object    = 'ZCS4_NUR'
-                 IMPORTING
-                   e_result    = i_checkflag
-                 ).
-              CATCH cx_static_check INTO DATA(lx_GetNum_err).
-                i_checkflag  = abap_false.
-                lo_CheckCustomer->insert_log( i_message = | Exception : ' {  lx_GetNum_err->get_text( ) }|  i_errtype = gc_error ).
-                CONTINUE.
+                  ls_customer-customerid = lo_CheckCustomer->Get_CustomerId(
+                   EXPORTING
+                     i_object    = 'ZCS4_NUR'
+                   IMPORTING
+                     e_result    = i_checkflag
+                   ).
+                CATCH cx_static_check INTO DATA(lx_GetNum_err).
+                  i_checkflag  = abap_false.
+                  lo_CheckCustomer->insert_log( i_message = | Exception : ' {  lx_GetNum_err->get_text( ) }|  i_errtype = gc_error ).
+                  CONTINUE.
               ENDTRY.
               IF i_checkflag = abap_false.
                 "insert into table exception Get number range has error
@@ -81,11 +90,11 @@ CLASS zcl_cs4_postcustomer IMPLEMENTATION.
 
             CALL BADI My_badi->checkdata_import
               EXPORTING
-                i_customer_id  = ls_customer-customerid
-                i_FileData     = ls_source
+                i_customer_id = ls_customer-customerid
+                i_FileData    = ls_source
               CHANGING
-                c_customer     = ls_customer
-                c_Exceptions   = ls_Exception.
+                c_customer    = ls_customer
+                c_Exceptions  = ls_Exception.
 
             IF ls_Exception-exception_type IS NOT INITIAL.
               lo_CheckCustomer->post_exception( CHANGING c_Exception = ls_Exception c_result = i_checkflag ).
@@ -100,9 +109,9 @@ CLASS zcl_cs4_postcustomer IMPLEMENTATION.
                 e_message    = i_checkmessage
                 e_result     = i_checkflag
                 ).
-              IF i_checkflag = abap_false.
-                lo_CheckCustomer->insert_log( i_message =   | Exception : Update Exception Table|  i_errtype = gc_error ).
-              ENDIF.
+            IF i_checkflag = abap_false.
+              lo_CheckCustomer->insert_log( i_message =   | Exception : Update Exception Table|  i_errtype = gc_error ).
+            ENDIF.
 
             lo_CheckCustomer->check_emailvalidation(
               EXPORTING
@@ -142,7 +151,7 @@ CLASS zcl_cs4_postcustomer IMPLEMENTATION.
             IF i_checkflag = abap_false.
               "insert into table exception Company ... can not be inserted
             ELSE.
-             lo_CheckCustomer->insert_log( i_message =  |Customer : { ls_customer-customerid } has been posted | i_errtype = gc_success ).
+              lo_CheckCustomer->insert_log( i_message =  |Customer : { ls_customer-customerid } has been posted | i_errtype = gc_success ).
             ENDIF.
           ENDLOOP.
           SELECT COUNT( * ) FROM zcs04_filedata
@@ -151,11 +160,16 @@ CLASS zcl_cs4_postcustomer IMPLEMENTATION.
           IF sy-subrc <> 0.
             Num_PostedRecords = 0.
           ENDIF.
-
+          IF Num_PostedRecords > 0.
+            i_checkflag = abap_false.
+            CLEAR ls_Info.
+            ls_Info-infotype = 'I'. ls_Info-header = | Post Data Info |. ls_Info-information = | Number of new posted customers is : { Num_PostedRecords }| .
+            lo_CheckCustomer->post_infotbl( CHANGING c_result = i_checkflag c_info = ls_Info ).
+          ENDIF.
           CALL BADI My_badi->numberof_newpostedrecords
             EXPORTING
               i_Count = Num_PostedRecords.
-          i_checkmessage = | Number of new posted recorsd are : { Num_PostedRecords }| .
+          i_checkmessage = | Number of new posted recorsd is : { Num_PostedRecords }| .
         ENDIF.
 
       CATCH cx_a4c_bc_exception INTO DATA(lx_nr).
@@ -180,9 +194,6 @@ CLASS zcl_cs4_postcustomer IMPLEMENTATION.
         MODIFY zcs04_logtbl FROM TABLE @lt_logTbl04.
 
     ENDTRY.
-
-
   ENDMETHOD.
-
 
 ENDCLASS.

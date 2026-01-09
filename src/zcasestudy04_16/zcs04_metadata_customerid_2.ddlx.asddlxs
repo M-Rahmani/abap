@@ -1,0 +1,10 @@
+@Metadata.layer: #INDUSTRY
+annotate entity Zcs04_16_custorders_r_test
+    with parameters
+    @EndUserText.label: 'CustomerID'
+        p_custID
+{
+@EndUserText.label: 'Cust.ID.'
+    Customerid;
+    
+}

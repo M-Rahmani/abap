@@ -26,6 +26,12 @@
      <MSGNR>003</MSGNR>
      <TEXT>Calculation SalesTarget has Error : &amp;1</TEXT>
     </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZCS04_MSG</ARBGB>
+     <MSGNR>004</MSGNR>
+     <TEXT>Country Code &amp;1 is invalid</TEXT>
+    </T100>
    </T100>
   </asx:values>
  </asx:abap>

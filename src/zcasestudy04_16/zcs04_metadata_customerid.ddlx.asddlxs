@@ -1,0 +1,10 @@
+@Metadata.layer: #CORE
+annotate view Zcs04_16_custorders_r_test
+    with parameters
+    @EndUserText.label: 'Kundennummer'
+        p_custID
+{
+@EndUserText.label: 'Kundennr.'
+    Customerid;
+    
+}

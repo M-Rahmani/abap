@@ -122,7 +122,28 @@ CLASS zcs4_17_global_class IMPLEMENTATION.
 *   "log in single use
 *ENDTRY.
 
- delete from zcs04_filedata where company = 'ABC Automobile Andreas Klecha Gmbh'.
+
+*            cl_numberrange_intervals=>create(
+*                EXPORTING
+*                 object   = 'ZCS4_NUR'
+*                  interval = VALUE #(
+*                 ( nrrangenr  = '01'        " Interval number
+*                 fromnumber = '000001'    " Start
+*                 tonumber   = '999999'    " End
+*                 externind  = space )  " Internal number range
+*                )
+*              ).
+*    cl_numberrange_runtime=>number_get(
+*      EXPORTING
+*      object =  'ZCS4_NUR' "'Z17_NURANG'
+*      subobject = space
+*      nr_range_nr = '01'
+*      IMPORTING
+*        number = DATA(l_number)
+*    ).
+
+update zcs04_info set  times  = @sy-timlo.
+* delete from zcs04_filedata where company = 'ABC Automobile Andreas Klecha Gmbh'.
  COMMIT WORK.
 endmETHOD.
 ENDCLASS.
