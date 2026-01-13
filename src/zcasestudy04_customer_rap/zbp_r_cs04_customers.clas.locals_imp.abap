@@ -26,6 +26,7 @@ CLASS lhc_zr_cs04_customer IMPLEMENTATION.
 ENDCLASS.
 
 CLASS lhc_zr_cs04_customers DEFINITION INHERITING FROM cl_abap_behavior_handler.
+  PUBLIC SECTION.
   PRIVATE SECTION.
     METHODS:
       get_global_authorizations FOR GLOBAL AUTHORIZATION
@@ -33,8 +34,7 @@ CLASS lhc_zr_cs04_customers DEFINITION INHERITING FROM cl_abap_behavior_handler.
         REQUEST requested_authorizations FOR ZrCs04Customers
         RESULT result,
       Read_Salutation_FromList FOR VALIDATE ON SAVE
-        IMPORTING keys FOR ZrCs04Customers~Read_Salutation_FromList
-        ,
+        IMPORTING keys FOR ZrCs04Customers~Read_Salutation_FromList,
       checkcountry FOR VALIDATE ON SAVE
         IMPORTING keys FOR ZrCs04Customers~checkcountry,
 *      earlynumbering_create FOR NUMBERING
@@ -50,6 +50,8 @@ ENDCLASS.
 CLASS lhc_zr_cs04_customers IMPLEMENTATION.
   METHOD get_global_authorizations.
   ENDMETHOD.
+
+
 
   METHOD Read_Salutation_FromList.
     DATA failed_record LIKE LINE OF failed-zrcs04customers.

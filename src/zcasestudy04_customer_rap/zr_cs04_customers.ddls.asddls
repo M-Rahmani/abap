@@ -1,4 +1,4 @@
-@AccessControl.authorizationCheck: #MANDATORY
+@AccessControl.authorizationCheck: #CHECK //#MANDATORY
 @Metadata.allowExtensions: true
 @ObjectModel.sapObjectNodeType.name: 'ZCS04_CUSTOMERS'
 @EndUserText.label: '###GENERATED Core Data Service Entity'
@@ -37,6 +37,15 @@ define root view entity ZR_CS04_CUSTOMERS
   fax as Fax,
   phone as Phone,
   email as Email,
+  @UI.identification: [ {
+    position: 180 , type: #WITH_URL, url: 'Url' 
+  } ]
+  @UI.lineItem: [ {
+    position: 180 , type:  #WITH_URL, url: 'Url'  
+  } ]
+  @UI.selectionField: [ {
+    position: 180 
+  } ]
   url as Url,
   @Consumption.valueHelpDefinition: [ {
     entity.name: 'I_CurrencyStdVH', 

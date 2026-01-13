@@ -6,7 +6,9 @@ CLASS LHC_ZR_CS04_CUSTOMERS000 DEFINITION INHERITING FROM CL_ABAP_BEHAVIOR_HANDL
            REQUEST requested_authorizations FOR ZrCs04Customers000
         RESULT result,
       validate_email FOR VALIDATE ON SAVE
-            IMPORTING keys FOR ZrCs04Customers000~validate_email.
+            IMPORTING keys FOR ZrCs04Customers000~validate_email,
+      CancelOrders FOR MODIFY
+            IMPORTING keys FOR ACTION ZrCs04Customers000~CancelOrders.
 ENDCLASS.
 
 CLASS LHC_ZR_CS04_CUSTOMERS000 IMPLEMENTATION.
@@ -26,7 +28,7 @@ CLASS LHC_ZR_CS04_CUSTOMERS000 IMPLEMENTATION.
 
     data e_Result type abap_bool  value abap_true.
     DATA: lv_pattern TYPE string VALUE
-            '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$',
+            '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$',
           lo_matcher TYPE REF TO cl_abap_matcher.
 
 *    e_result  = abap_true.
@@ -91,6 +93,9 @@ catch cx_root.
     endloop.
 
 
+  ENDMETHOD.
+
+  METHOD CancelOrders.
   ENDMETHOD.
 
 ENDCLASS.

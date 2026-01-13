@@ -1,0 +1,11 @@
+{
+  "formatVersion": "1",
+  "header": {
+    "description": "SAP Object Node Type ZCS04_ORDERITEMS",
+    "originalLanguage": "en",
+    "abapLanguageVersion": "cloudDevelopment"
+  },
+  "name": "ZCS04_ORDERITEMS",
+  "sapObjectType": "ZCS04_ORDERITEMS",
+  "rootNode": true
+}

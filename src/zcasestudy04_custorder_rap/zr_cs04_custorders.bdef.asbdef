@@ -35,6 +35,7 @@ authorization master( global )
   draft action Edit;
   draft action Resume;
   draft determine action Prepare;
+  validation Read_Status_FromList on save { field Status; }
 
   mapping for ZCS04_CUSTORDERS corresponding extensible
   {

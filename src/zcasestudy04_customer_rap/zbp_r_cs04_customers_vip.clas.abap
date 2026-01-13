@@ -1,0 +1,5 @@
+CLASS zbp_r_cs04_customers_vip DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zr_cs04_customers.
+ENDCLASS.
+
+CLASS zbp_r_cs04_customers_vip IMPLEMENTATION.
+ENDCLASS.

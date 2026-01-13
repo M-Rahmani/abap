@@ -1,0 +1,16 @@
+@Metadata.layer: #CORE
+annotate entity ZC_CS04_CUSTOMERS000
+    with 
+{
+    @UI.identification: [ {
+  position: 225
+  } ]
+  @UI.lineItem: [ {
+    position: 225
+  } ]
+  @UI.selectionField: [ {
+    position: 225
+  } ]
+  ZZVIP;
+    
+}

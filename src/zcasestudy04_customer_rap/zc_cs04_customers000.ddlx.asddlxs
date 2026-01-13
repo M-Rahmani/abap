@@ -222,10 +222,10 @@ annotate view ZC_CS04_CUSTOMERS000 with
   Email;
   
   @UI.identification: [ {
-    position: 180 
+    position: 180 , type: #WITH_URL, url: 'Url' 
   } ]
   @UI.lineItem: [ {
-    position: 180 
+    position: 180 , type:  #WITH_URL, url: 'Url'  
   } ]
   @UI.selectionField: [ {
     position: 180 
@@ -275,6 +275,17 @@ annotate view ZC_CS04_CUSTOMERS000 with
     position: 220 
   } ]
   Memo;
+   
+  @UI.identification: [ {
+    position: 223 , label: 'Order_Count' 
+  } ]
+  @UI.lineItem: [ {
+    position: 223 , label: 'Order_Count'
+  } ]
+  @UI.selectionField: [ {
+    position: 223  
+  } ]
+  ordercount;
   
   @UI.identification: [ {
     position: 230 

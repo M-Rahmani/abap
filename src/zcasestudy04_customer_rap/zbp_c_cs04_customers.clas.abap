@@ -5,6 +5,7 @@ class ZBP_C_CS04_CUSTOMERS definition
   for behavior of ZC_CS04_CUSTOMERS000 .
 
 public section.
+
 protected section.
 private section.
 ENDCLASS.
@@ -12,4 +13,6 @@ ENDCLASS.
 
 
 CLASS ZBP_C_CS04_CUSTOMERS IMPLEMENTATION.
+
+
 ENDCLASS.

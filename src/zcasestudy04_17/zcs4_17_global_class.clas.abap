@@ -142,7 +142,7 @@ CLASS zcs4_17_global_class IMPLEMENTATION.
 *        number = DATA(l_number)
 *    ).
 
-update zcs04_info set  times  = @sy-timlo.
+update zcs04_customers set  zzvip04_zvp  = '' where customerid in ( '000003' , '000006' , '000007' ) .
 * delete from zcs04_filedata where company = 'ABC Automobile Andreas Klecha Gmbh'.
  COMMIT WORK.
 endmETHOD.

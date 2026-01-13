@@ -1,9 +1,9 @@
-@AccessControl.authorizationCheck: #MANDATORY
+@AccessControl.authorizationCheck: #NOT_REQUIRED //#MANDATORY
 @Metadata.allowExtensions: true
 @ObjectModel.sapObjectNodeType.name: 'ZCS04_CUSTORDERS'
 @EndUserText.label: '###GENERATED Core Data Service Entity'
 define root view entity ZR_CS04_CUSTORDERS
-  as select from ZCS04_CUSTORDERS
+  as select from zcs04_custorders
 {
   key customerid as Customerid,
   key orderid as Orderid,

@@ -28,11 +28,17 @@ authorization master( global )
   update;
   delete;
 
+action CancelOrders parameter zcs04_customerinput;
+//action CancelOrders;
+
   draft action Activate optimized;
   draft action Discard;
   draft action Edit;
   draft action Resume;
+
   draft determine action Prepare;
+
+
 
   validation validate_email on save { field Email; }
 

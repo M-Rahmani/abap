@@ -12,8 +12,8 @@ define root view entity ZC_CS04_CUSTOMERS000
   provider contract transactional_query
   as projection on ZR_CS04_CUSTOMERS
   association [1..1] to ZR_CS04_CUSTOMERS as _BaseEntity on $projection.Customerid = _BaseEntity.Customerid
-{
-//  @Consumption.defaultValue: 'X'
+
+ {
   key Customerid,
   Salutation,
   LastName,
@@ -38,6 +38,9 @@ define root view entity ZC_CS04_CUSTOMERS000
   Fax,
   Phone,
   Email,
+  @ObjectModel.virtualElementCalculatedBy: 'ABAP:ZCL_CS4_CUST_UTILITIES' //ZCL_CS4_CUST_UTILITIES
+  @EndUserText.label: 'order count'
+  virtual ordercount : abap.int4,
   Url,
   @Consumption: {
     valueHelpDefinition: [ {
@@ -55,10 +58,19 @@ define root view entity ZC_CS04_CUSTOMERS000
     } ]
   }
   CurrencyTarget,
+    @Consumption: {
+    valueHelpDefinition: [ {
+      entity: { name: 'I_Language', element: 'Language' },
+      useForValidation: true
+    } ]
+  }
   Language,
   Weblogin,
   Webpw,
   Memo,
+//  @ObjectModel.virtualElementCalculatedBy: 'ABAP:ZBP_C_CS04_CUSTOMERS'
+//  @EndUserText.label: 'Count of Orders : '
+//  virtual CountofOrders : abap.int2,
   @Semantics: {
     user.createdBy: true
   }

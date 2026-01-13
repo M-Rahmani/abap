@@ -1,0 +1,6 @@
+@EndUserText.label: 'ZR_CS04_ORDERITEMS'
+@MappingRole: true
+define role ZR_CS04_ORDERITEMS {
+  grant select on ZR_CS04_ORDERITEMS
+  where TRUE;
+}

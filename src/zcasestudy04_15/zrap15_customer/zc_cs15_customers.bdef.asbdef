@@ -1,0 +1,22 @@
+projection implementation in class ZBP_C_CS15_CUSTOMERS unique;
+strict ( 2 );
+extensible;
+use draft;
+use side effects;
+define behavior for ZC_CS15_CUSTOMERS alias ZcCs15Customers
+extensible
+use etag
+{
+
+  use action CancelOrders;
+  use create;
+  use update;
+  use delete;
+
+  use action Edit;
+  use action Activate;
+  use action Discard;
+  use action Resume;
+  use action Prepare;
+
+}

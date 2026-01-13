@@ -1,0 +1,9 @@
+extension implementation in class zbp_r_cs04_customers_vip unique;
+
+extend behavior for ZrCs04Customers
+{
+mapping for zcs04_customers corresponding
+    {
+      zzvip   = zzvip04_zvp;
+    }
+}

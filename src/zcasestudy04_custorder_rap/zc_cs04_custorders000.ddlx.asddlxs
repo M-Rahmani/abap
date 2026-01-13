@@ -87,6 +87,9 @@ annotate view ZC_CS04_CUSTORDERS000 with
   @UI.selectionField: [ {
     position: 70 
   } ]
+   @Consumption.valueHelpDefinition: [{
+   entity: { name: 'ZCS04_CStatus', element: 'Status' }
+  }]
   Status;
   
   @UI.identification: [ {

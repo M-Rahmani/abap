@@ -7,7 +7,9 @@
 "ZR_CS04_CUSTORDERS"
 ],
 "ASSOCIATED":
-[],
+[
+"ZR_CS04_CUSTORDERS"
+],
 "BASE":
 [],
 "ANNO_REF":
