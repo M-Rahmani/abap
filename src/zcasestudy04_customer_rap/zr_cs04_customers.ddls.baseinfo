@@ -6,7 +6,9 @@
 "ZCS04_CUSTOMERS"
 ],
 "ASSOCIATED":
-[],
+[
+"ZR_CS04_POSTCODE"
+],
 "BASE":
 [],
 "ANNO_REF":

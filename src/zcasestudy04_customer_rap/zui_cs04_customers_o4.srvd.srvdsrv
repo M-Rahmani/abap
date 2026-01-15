@@ -6,6 +6,9 @@
     name: 'ZC_CS04_CUSTOMERS000'
   }
 }
-define service ZUI_CS04_CUSTOMERS_O4 provider contracts odata_v4_ui {
+define service ZUI_CS04_CUSTOMERS_O4
+  provider contracts odata_v4_ui {
   expose ZC_CS04_CUSTOMERS000;
+  expose ZC_CS04_POSTCODE     as PostCodes;
+  expose ZC_CS04_STATISTICS   as STATISTICS;
 }

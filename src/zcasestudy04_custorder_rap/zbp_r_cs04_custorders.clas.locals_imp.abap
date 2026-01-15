@@ -20,7 +20,7 @@ CLASS LHC_ZR_CS04_CUSTORDERS IMPLEMENTATION.
      ENTITY ZrCs04Custorders
     FIELDS ( Status ) WITH CORRESPONDING #( keys ) RESULT DATA(lt_data).
     LOOP AT lt_data INTO DATA(ls_data) WHERE Status IS NOT INITIAL.
-      SELECT  COUNT( * ) FROM zr_cs04_custorders
+      SELECT  COUNT( * ) FROM ZCS04_CStatus
        WHERE Status = @ls_data-Status
         INTO @DATA(lv_Status).
       IF  lv_Status  = 0.

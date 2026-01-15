@@ -91,5 +91,6 @@ define root view entity ZC_CS04_CUSTOMERS000
     systemDateTime.lastChangedAt: true
   }
   LastChangedAt,
-  _BaseEntity
+  _BaseEntity,
+  _Postcodes : redirected to ZC_CS04_POSTCODE
 }

@@ -1,0 +1,11 @@
+{
+  "formatVersion": "1",
+  "header": {
+    "description": "SAP Object Node Type ZCS15CUSTORDERS",
+    "originalLanguage": "en",
+    "abapLanguageVersion": "cloudDevelopment"
+  },
+  "name": "zCS15CUSTORDERS",
+  "sapObjectType": "zCS15CUSTORDERS",
+  "rootNode": true
+}

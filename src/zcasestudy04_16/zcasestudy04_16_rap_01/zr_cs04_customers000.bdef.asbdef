@@ -28,7 +28,9 @@ authorization master( global )
   update;
   delete;
 
-action CancelOrders parameter zcs04_customerinput;
+action ShowStatistics;
+static action  CancelOrders parameter zcs04_customerinput;
+
 //action CancelOrders;
 
   draft action Activate optimized;

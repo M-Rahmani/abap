@@ -16,9 +16,10 @@ annotate view ZC_CS04_CUSTOMERS001 with
     position: 10 
   } ]
   @UI.lineItem: [ {
-    position: 10 ,
-    type:#FOR_ACTION, dataAction: 'CancelOrders', label: ' Cancel Orders'
-  } ]
+    position: 10} ,
+     {type:#FOR_ACTION, dataAction: 'ShowStatistics', label: ' Show Statistics'},
+    {type:#FOR_ACTION, dataAction: 'CancelOrders', label: ' Cancel Orders'}
+   ]
   @UI.selectionField: [ {
     position: 10 
   } ]

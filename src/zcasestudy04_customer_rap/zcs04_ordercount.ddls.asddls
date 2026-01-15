@@ -8,4 +8,5 @@ as select from zcs04_custorders
       count( * ) as OrderCount 
 }
 where customerid = $parameters.CustID
+and   status <> 'BS'
 

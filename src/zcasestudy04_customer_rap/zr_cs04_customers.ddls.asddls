@@ -4,6 +4,7 @@
 @EndUserText.label: '###GENERATED Core Data Service Entity'
 define root view entity ZR_CS04_CUSTOMERS
   as select from zcs04_customers
+  association [0..*] to ZR_CS04_POSTCODE as _Postcodes on $projection.Postcode = _Postcodes.Postcode
 {
   key customerid as Customerid,
   salutation as Salutation,
@@ -72,5 +73,6 @@ define root view entity ZR_CS04_CUSTOMERS
   @Semantics.systemDateTime.localInstanceLastChangedAt: true
   local_last_changed_at as LocalLastChangedAt,
   @Semantics.systemDateTime.lastChangedAt: true
-  last_changed_at as LastChangedAt
+  last_changed_at as LastChangedAt,
+  _Postcodes
 }

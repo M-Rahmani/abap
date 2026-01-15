@@ -38,6 +38,48 @@
      <MSGNR>005</MSGNR>
      <TEXT>Status &amp;1 is invalid</TEXT>
     </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZCS04_MSG</ARBGB>
+     <MSGNR>006</MSGNR>
+     <TEXT>Order Cancelation has Error : &amp;1</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZCS04_MSG</ARBGB>
+     <MSGNR>007</MSGNR>
+     <TEXT>&amp;2 Orders from customer &amp;1 have been canceled</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZCS04_MSG</ARBGB>
+     <MSGNR>008</MSGNR>
+     <TEXT>Exception: &amp;1</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZCS04_MSG</ARBGB>
+     <MSGNR>009</MSGNR>
+     <TEXT>Class &amp;1 not found in system</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZCS04_MSG</ARBGB>
+     <MSGNR>010</MSGNR>
+     <TEXT>Configuration Error: Class  &amp;1 does not implement &amp;2</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZCS04_MSG</ARBGB>
+     <MSGNR>011</MSGNR>
+     <TEXT>There isnot any active Customizing for showing</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZCS04_MSG</ARBGB>
+     <MSGNR>012</MSGNR>
+     <TEXT>Id: &amp;1;AVGS:&amp;2;MaxS:&amp;3;DailyS:&amp;4</TEXT>
+    </T100>
    </T100>
   </asx:values>
  </asx:abap>

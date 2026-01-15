@@ -8,6 +8,7 @@ extensible
 use etag
 {
 
+use action ShowStatistics;
 use action CancelOrders;
   use create;
   use update;
