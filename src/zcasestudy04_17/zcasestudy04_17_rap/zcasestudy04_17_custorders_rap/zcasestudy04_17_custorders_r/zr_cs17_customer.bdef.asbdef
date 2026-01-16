@@ -1,0 +1,102 @@
+managed implementation in class ZBP_R_CS17_CUSTOMERS unique;
+strict ( 2 );
+with draft;
+extensible;
+define behavior for ZR_CS17_Customer alias Customer
+persistent table zcs04_customers
+extensible
+draft table Z17_CUSTOMER_D
+etag master LocalLastChangedAt
+lock master total etag LastChangedAt
+authorization master ( instance )
+{
+
+field ( mandatory : create )
+  Customerid;
+
+  field ( readonly )
+  LocalCreatedBy,
+  LocalCreatedAt,
+  LocalLastChangedBy,
+  LocalLastChangedAt,
+  LastChangedAt;
+
+  field ( readonly : update )
+  Customerid;
+
+  draft action Edit;
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare;
+
+  create ( authorization : global );
+  update;
+  delete;
+//  field ( readonly ) Customerid;
+  association _Orders { create; with draft;}
+
+  mapping for zcs04_customers corresponding extensible
+    {
+      Customerid         = customerid;
+      Salutation         = salutation;
+      LastName           = last_name;
+      FirstName          = first_name;
+      Company            = company;
+      Street             = street;
+      City               = city;
+      Country            = country;
+      Postcode           = postcode;
+      AccLock            = acc_lock;
+      LastDate           = last_date;
+      SalesVolume        = sales_volume;
+      SalesVolumeTarget  = sales_volume_target;
+      ChangeRateDate     = change_rate_date;
+      Fax                = fax;
+      Phone              = phone;
+      Email              = email;
+      Url                = url;
+      Currency           = currency;
+      CurrencyTarget     = currency_target;
+      Language           = language;
+      Weblogin           = weblogin;
+      Webpw              = webpw;
+      Memo               = memo;
+      LocalCreatedBy     = local_created_by;
+      LocalCreatedAt     = local_created_at;
+      LocalLastChangedBy = local_last_changed_by;
+      LocalLastChangedAt = local_last_changed_at;
+      LastChangedAt      = last_changed_at;
+    }
+}
+
+define behavior for ZR_CS17_Orders alias Orders
+persistent table zcs04_custorders
+lock dependent by _Customer
+extensible
+draft table Z17_CUSTORDER_D
+authorization dependent by _Customer
+etag master LocalLastChangedAt
+{
+  update;
+  delete;
+  field ( readonly ) Customerid, Orderid;
+  association _Customer{ with draft;}
+    mapping for ZCS04_CUSTORDERS corresponding extensible
+  {
+    Customerid = customerid;
+    Orderid = orderid;
+    OrderDate = order_date;
+    OrderTotal = order_total;
+    Discount = discount;
+    Info = info;
+    Status = status;
+    Currency = currency;
+    LocalCreatedBy = local_created_by;
+    LocalCreatedAt = local_created_at;
+    LocalLastChangedBy = local_last_changed_by;
+    LocalLastChangedAt = local_last_changed_at;
+    LastChangedAt = last_changed_at;
+  }
+
+}

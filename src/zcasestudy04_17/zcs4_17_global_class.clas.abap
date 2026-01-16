@@ -141,9 +141,12 @@ CLASS zcs4_17_global_class IMPLEMENTATION.
 *      IMPORTING
 *        number = DATA(l_number)
 *    ).
+*
+*update zcs04_customers set  zzvip04_zvp  = '' where customerid in ( '000003' , '000006' , '000007' ) .
+** delete from zcs04_filedata where company = 'ABC Automobile Andreas Klecha Gmbh'.
+* COMMIT WORK.
+data lt_table type table of zcs04_customers.
+select * from zcs04_customers where  local_last_changed_at is iniTIAL into table @lt_table.
 
-update zcs04_customers set  zzvip04_zvp  = '' where customerid in ( '000003' , '000006' , '000007' ) .
-* delete from zcs04_filedata where company = 'ABC Automobile Andreas Klecha Gmbh'.
- COMMIT WORK.
 endmETHOD.
 ENDCLASS.

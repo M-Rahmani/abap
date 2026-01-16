@@ -1,0 +1,26 @@
+projection;
+strict ( 2 );
+use draft;
+
+define behavior for ZCP_04_17_Customer_M alias CustomerM_P
+{
+  use create;
+  use update;
+  use delete;
+
+  use action Edit;
+  use action Activate;
+  use action Discard;
+  use action Resume;
+  use action Prepare;
+
+  use association _Orders_D { create; with draft;}
+}
+
+define behavior for ZCP_04_17_Customer_D alias OrderD_P
+{
+  use update;
+  use delete;
+
+  use association _Customer_M { with draft;}
+}

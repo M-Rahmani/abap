@@ -289,10 +289,7 @@ CLASS lhc_zr_cs04_customers IMPLEMENTATION.
 *        e_result  = abap_false.
         ENDIF.
       ENDIF.
-
     ENDLOOP.
-
-
   ENDMETHOD.
 
   METHOD cancelorders.
@@ -335,7 +332,7 @@ CLASS lhc_zr_cs04_customers IMPLEMENTATION.
 
   METHOD ShowStatistics.
     DATA: lo_generic_instance TYPE REF TO object.
-    SELECT SINGLE interfname, classname
+    SELECT SINGLE upper( interfname ) as interfname, upper( classname ) as classname
      FROM zcs04_statistics
      WHERE activstat = 'X'
      INTO @DATA(ls_config).
@@ -384,26 +381,23 @@ CLASS lhc_zr_cs04_customers IMPLEMENTATION.
       RESULT DATA(lt_customers).
     LOOP AT lt_customers ASSIGNING FIELD-SYMBOL(<ls_customer>).
       TRY.
-      DATA: lv_avg, lv_Max,lv_Day TYPE zsales_volume04.
-      DATA(lv_method_call) = |{ ls_config-interfname }~averagesales|.
-        CALL METHOD lo_generic_instance->(lv_method_call)
+      DATA: lv_avg TYPE zsales_volume04, lv_Max TYPE zsales_volume04, lv_Day TYPE zsales_volume04.
+      DATA(lv_method_call) = to_upper( |{ ls_config-interfname }~averagesales| ).
+      CALL METHOD lo_generic_instance->(lv_method_call)
           EXPORTING
-            i_customerid = <ls_customer>-Customerid " Assuming you READ this earlier
+            i_customerid = <ls_customer>-Customerid
           RECEIVING
             sales_avg    = lv_avg.
-      DATA(lv_methodM_call) = |{ ls_config-interfname }~maxsales|.
-        CALL METHOD lo_generic_instance->(lv_method_call)
+     DATA(lv_methodM_call) = to_upper( |{ ls_config-interfname }~maxsales| ).
+        CALL METHOD lo_generic_instance->(lv_methodM_call)
           EXPORTING
-            i_customerid = <ls_customer>-Customerid " Assuming you READ this earlier
+            i_customerid = <ls_customer>-Customerid
           RECEIVING
-            sales_avg    = lv_Max.
-      DATA(lv_methodD_call) = |{ ls_config-interfname }~daysales|.
-        CALL METHOD lo_generic_instance->(lv_method_call)
-          EXPORTING
-            i_customerid = <ls_customer>-Customerid " Assuming you READ this earlier
+            Sales_MAX    = lv_Max.
+      DATA(lv_methodD_call) = to_upper( |{ ls_config-interfname }~daysales| ).
+        CALL METHOD lo_generic_instance->(lv_methodD_call)
           RECEIVING
-            sales_avg    = lv_Day.
-
+            Sales_DAY  = lv_Day.
           APPEND VALUE #( %msg = new_message( id = 'ZCS04_MSG'
                                    severity = if_abap_behv_message=>severity-information
                                    number = '012'
@@ -413,8 +407,7 @@ CLASS lhc_zr_cs04_customers IMPLEMENTATION.
                                    v4 = lv_Day
                                     )
                         ) TO reported-zrcs04customers.
-
-        CATCH zcl_17_customer_error INTO DATA(lo_exc).
+        CATCH cx_root INTO DATA(lo_exc).
           APPEND VALUE #(  %msg = new_message( id = 'ZCS04_MSG'
                                               number = '006'
                                               severity = if_abap_behv_message=>severity-error

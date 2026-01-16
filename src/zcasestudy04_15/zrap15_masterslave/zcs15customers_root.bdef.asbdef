@@ -1,0 +1,56 @@
+managed implementation in class zbp_cs15customers_root unique;
+strict ( 2 );
+with draft;
+
+define behavior for zcs15Customers_root //alias <alias_name>
+persistent table zcs15customers
+draft table zcs15customers_d
+etag master LocalLastChangedAt
+lock master total etag LastChangedAt
+authorization master ( instance )
+//etag master <field_name>
+{
+  field (mandatory : create)
+  Customerid;
+
+  field ( readonly )
+  LocalCreatedAt,
+  LocalCreatedBy,
+  LocalLastChangedAt,
+  LocalLastChangedBy,
+  LastChangedAt;
+
+  field ( readonly : update )
+  Customerid;
+
+  create;
+  update;
+  delete;
+//  field ( readonly ) Customerid;
+
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Edit;
+  draft action Resume;
+  draft determine action Prepare;
+
+  association _orders { create; with draft; }
+}
+
+
+
+define behavior for zcs15Custorders_MS //alias <alias_name>
+persistent table zcs15custorders
+draft table zcs15cstorders_d
+lock dependent by _zcs15customers_ms
+etag master LocalLastChangedAt
+late numbering
+
+authorization dependent by _zcs15customers_ms
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( readonly ) Customerid, Orderid;
+  association _zcs15customers_ms {with draft; }
+  }

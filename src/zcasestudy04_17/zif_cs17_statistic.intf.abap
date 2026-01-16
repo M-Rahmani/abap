@@ -1,6 +1,5 @@
 INTERFACE zif_cs17_statistic
   PUBLIC .
-
   METHODS :
    AverageSales
     IMPORTING
