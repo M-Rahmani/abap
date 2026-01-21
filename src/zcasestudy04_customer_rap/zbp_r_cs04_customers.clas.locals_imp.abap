@@ -250,26 +250,21 @@ CLASS lhc_zr_cs04_customers IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD validate_email.
-
+    DATA failed_record LIKE LINE OF failed-zrcs04customers.
     READ ENTITIES OF zr_cs04_customers IN LOCAL MODE
      ENTITY  ZrCs04Customers "zr_cs04_customers000
      FIELDS ( Email )
      WITH CORRESPONDING #( keys )
      RESULT DATA(customers).
-
-    LOOP AT customers ASSIGNING FIELD-SYMBOL(<cust>).
-
-      DATA(lv_email) = <cust>-Email.
-
       DATA e_Result TYPE abap_bool  VALUE abap_true.
       DATA: lv_pattern TYPE string VALUE
               '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$',
             lo_matcher TYPE REF TO cl_abap_matcher.
-
+    LOOP AT customers ASSIGNING FIELD-SYMBOL(<cust>).
+      DATA(lv_email) = <cust>-Email.
 *    e_result  = abap_true.
 *    CLEAR e_message.
 *    new_email = i_customer-email.
-
       IF lv_email IS NOT INITIAL.
         TRY.
             lo_matcher = cl_abap_matcher=>create(
@@ -280,16 +275,19 @@ CLASS lhc_zr_cs04_customers IMPLEMENTATION.
         ENDTRY.
         IF lo_matcher->match( ) = abap_false.
           reported-zrcs04customers = VALUE #( (  %tky = <cust>-%tky
+                                            %element-email = if_abap_behv=>mk-on
                                             %msg = new_message(
                                              id = 'ZMSG15'
                                              number = '001'
-                                             severity = if_abap_behv_message=>severity-warning
+                                             severity = if_abap_behv_message=>severity-error
                                              v1 = <cust>-email  ) ) ).
-*        e_message = 'Email has invalid format'.
-*        e_result  = abap_false.
+            failed_record-%tky = <cust>-%tky.
+            APPEND failed_record TO failed-zrcs04customers.
         ENDIF.
       ENDIF.
     ENDLOOP.
+
+
   ENDMETHOD.
 
   METHOD cancelorders.

@@ -4,6 +4,7 @@ CLASS zcs4_17_global_class DEFINITION
   CREATE PUBLIC .
 
   PUBLIC SECTION.
+
     INTERFACES if_oo_adt_classrun .
 
     CONSTANTS:
@@ -145,8 +146,39 @@ CLASS zcs4_17_global_class IMPLEMENTATION.
 *update zcs04_customers set  zzvip04_zvp  = '' where customerid in ( '000003' , '000006' , '000007' ) .
 ** delete from zcs04_filedata where company = 'ABC Automobile Andreas Klecha Gmbh'.
 * COMMIT WORK.
-data lt_table type table of zcs04_customers.
-select * from zcs04_customers where  local_last_changed_at is iniTIAL into table @lt_table.
+*data lt_table type table of zcs04_customers.
+*select * from zcs04_customers where  local_last_changed_at is iniTIAL into table @lt_table.
+
+data : i_Object type char13.
+ i_Object = 'ZCS4_Ord'.
+
+            cl_numberrange_intervals=>create(
+                EXPORTING
+                 object   = 'ZCS4_Ord'
+                  interval = VALUE #(
+                 ( nrrangenr  = '01'        " Interval number
+                 fromnumber = '000001'    " Start
+                 tonumber   = '999999'    " End
+                 externind  = space )  " Internal number range
+                )
+              ).
+    cl_numberrange_runtime=>number_get(
+      EXPORTING
+      object =  'ZCS4_Ord'
+      subobject = space
+      nr_range_nr = '01'
+      IMPORTING
+        number = DATA(l_number)
+    ).
+    data(CusomerID) = l_number.
+    IF strlen( l_number ) < 6.
+      CusomerID = l_number.
+    ELSE.
+      CusomerID = substring(
+                   val = l_number
+                   off = 14
+                   len = 6 ).
+    ENDIF.
 
 endmETHOD.
 ENDCLASS.

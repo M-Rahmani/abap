@@ -13,7 +13,7 @@ annotate view ZC_CS17_CUSTOMER with
     type: #IDENTIFICATION_REFERENCE
   }, 
   {
-    label: 'Orders Items', 
+    label: 'Orders ', 
     id: 'OrdersItems', 
     purpose: #STANDARD, 
     position: 11 , 

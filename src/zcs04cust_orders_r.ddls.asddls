@@ -30,3 +30,4 @@ association [1..1] to zcs04customers_r as _customer on $projection.Customerid = 
     _customer
 }
 where $parameters.p_custID = customerid
+ and status <> 'BS'

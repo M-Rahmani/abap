@@ -6,7 +6,7 @@
 @ObjectModel: {
   sapObjectNodeType.name: 'ZCS04_CUSTOMERS'
 }
-@AccessControl.authorizationCheck: #MANDATORY
+@AccessControl.authorizationCheck: #CHECK
 
 define root view entity ZC_CS04_CUSTOMERS000
   provider contract transactional_query

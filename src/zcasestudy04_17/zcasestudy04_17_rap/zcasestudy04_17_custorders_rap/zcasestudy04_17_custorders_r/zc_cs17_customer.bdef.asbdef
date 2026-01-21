@@ -29,5 +29,17 @@ use etag
   use delete;
 
   use association _CUSTOMER { with draft; }
+  use association _Orderitems { create ;with draft; }
+}
+
+define behavior for ZC_CS17_OrderItems alias Orderitems
+extensible
+use etag
+{
+  use update;
+  use delete;
+
+  use association _CUSTOMER { with draft; }
+  use association _Orders { with draft; }
 
 }

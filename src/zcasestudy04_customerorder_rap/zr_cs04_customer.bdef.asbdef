@@ -1,0 +1,128 @@
+managed implementation in class zbp_r_cs04_customer unique;
+strict ( 2 );
+with draft;
+extensible;
+define behavior for ZR_CS04_Customer alias Customer
+persistent table zcs04_customers
+extensible
+draft table zcs04_customer_d
+etag master LocalLastChangedAt
+lock master total etag LastChangedAt
+late numbering
+authorization master ( instance )
+{
+
+  field ( readonly )
+  LocalCreatedBy,
+  LocalCreatedAt,
+  LocalLastChangedBy,
+  LocalLastChangedAt,
+  LastChangedAt;
+
+  field ( readonly )
+  Customerid, SalesVolumeTarget, City, SalesVolume;
+
+  side effects
+  { field SalesVolume affects field SalesVolumeTarget;
+    field ChangeRateDate affects field SalesVolumeTarget;
+    field Currency affects field SalesVolumeTarget;
+    field CurrencyTarget affects field SalesVolumeTarget;
+    field Postcode affects field City; }
+  draft action Edit;
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare;
+
+  create ( authorization : global );
+  update;
+  delete;
+
+  association _Orders { create; with draft;}
+
+  static action CancelOrder parameter zcs04_customerinput;
+  action ShowStatistic result[1] $self;
+  validation Read_Salutation_FromList on save { field Salutation; }
+  determination setDefaultValues on modify { create; update; }
+  determination set_SalesTarget on modify { field SalesVolume, ChangeRateDate, Currency, CurrencyTarget; }
+  validation CheckCountry on save { create; update; field Country; }
+  determination GetCities on modify { field postcode; }
+  validation validate_email on save { field email; }
+
+  mapping for zcs04_customers corresponding extensible
+    {
+      Customerid         = customerid;
+      Salutation         = salutation;
+      LastName           = last_name;
+      FirstName          = first_name;
+      Company            = company;
+      Street             = street;
+      City               = city;
+      Country            = country;
+      Postcode           = postcode;
+      AccLock            = acc_lock;
+      LastDate           = last_date;
+      SalesVolume        = sales_volume;
+      SalesVolumeTarget  = sales_volume_target;
+      ChangeRateDate     = change_rate_date;
+      Fax                = fax;
+      Phone              = phone;
+      Email              = email;
+      Url                = url;
+      Currency           = currency;
+      CurrencyTarget     = currency_target;
+      Language           = language;
+      Weblogin           = weblogin;
+      Webpw              = webpw;
+      Memo               = memo;
+      LocalCreatedBy     = local_created_by;
+      LocalCreatedAt     = local_created_at;
+      LocalLastChangedBy = local_last_changed_by;
+      LocalLastChangedAt = local_last_changed_at;
+      LastChangedAt      = last_changed_at;
+    }
+}
+
+define behavior for ZR_CS04_Orders alias Orders
+persistent table zcs04_custorders
+lock dependent by _Customer
+draft table zcs04_csorder_d
+late numbering
+authorization dependent by _Customer
+etag master LocalLastChangedAt
+{
+  update;
+  delete;
+
+  field ( readonly )
+  LocalCreatedBy,
+  LocalCreatedAt,
+  LocalLastChangedBy,
+  LocalLastChangedAt,
+  LastChangedAt;
+  field ( readonly ) Customerid, Orderid;
+  side effects {
+    field OrderTotal affects  field _Customer.SalesVolume;
+  }
+  association _Customer{ with draft;}
+
+  determination calculateSalesVolume on save { create; update; delete; }
+  validation validateDiscount on save { field Discount; create; update; }
+    mapping for ZCS04_CUSTORDERS corresponding
+  {
+    Customerid = customerid;
+    Orderid = orderid;
+    OrderDate = order_date;
+    OrderTotal = order_total;
+    Discount = discount;
+    Info = info;
+    Status = status;
+    Currency = currency;
+    LocalCreatedBy = local_created_by;
+    LocalCreatedAt = local_created_at;
+    LocalLastChangedBy = local_last_changed_by;
+    LocalLastChangedAt = local_last_changed_at;
+    LastChangedAt = last_changed_at;
+  }
+
+}

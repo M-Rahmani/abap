@@ -3,6 +3,7 @@
 @EndUserText.label: 'Customer Orders'
 @Metadata.ignorePropagatedAnnotations: true
 define view entity ZR_CS17_Orders as select from  zcs04_custorders as Orders
+composition [1..*] of ZR_CS17_OrderItems as _Orderitems
 association to parent ZR_CS17_Customer as _Customer on $projection.Customerid = _Customer.Customerid
 {
   key customerid as Customerid,
@@ -29,6 +30,7 @@ association to parent ZR_CS17_Customer as _Customer on $projection.Customerid = 
   local_last_changed_at as LocalLastChangedAt,
   @Semantics.systemDateTime.lastChangedAt: true
   last_changed_at as LastChangedAt,
-  _Customer
+  _Customer,
+  _Orderitems
 }
     

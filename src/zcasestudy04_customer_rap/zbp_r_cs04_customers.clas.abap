@@ -1,19 +1,5 @@
-class ZBP_R_CS04_CUSTOMERS definition
-  public
-  abstract
-  final
-  for behavior of ZR_CS04_CUSTOMERS .
-
-public section.
-
-protected section.
-private section.
+CLASS zbp_r_cs04_customers DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zr_cs04_customers.
 ENDCLASS.
 
-
-
-CLASS ZBP_R_CS04_CUSTOMERS IMPLEMENTATION.
-
-
-
+CLASS zbp_r_cs04_customers IMPLEMENTATION.
 ENDCLASS.

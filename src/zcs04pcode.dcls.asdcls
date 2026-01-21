@@ -6,7 +6,7 @@ define role ZCS04PCODE {
 //            on
 //                ZCS04CUSTOMERS_R
 //                    where
-//                       Postcode <= '99000' and Postcode >= '99000';
+//                       Postcode <= '22200' and Postcode >= '22000';
 ////                        or entity_element_2 = aspect user;
 //                        
 }

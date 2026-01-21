@@ -1,6 +1,0 @@
-@EndUserText.label: 'ZC_04_17_CUSTOMER_D000'
-@MappingRole: true
-define role ZC_04_17_CUSTOMER_D000 {
-  grant select on ZC_04_17_CUSTOMER_D000
-  where INHERITING CONDITIONS FROM ENTITY ZC_04_17_CUSTOMER_D DEFAULT TRUE;
-}

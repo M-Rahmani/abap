@@ -6,7 +6,9 @@
     name: 'ZC_CS17_CUSTOMER'
   }
 }
-define service ZUI_CS17_CUSTOMER_O4 provider contracts odata_v4_ui {
-  expose ZC_CS17_CUSTOMER as Customer;
-  expose ZC_CS17_ORDERS as Orders;
+define service ZUI_CS17_CUSTOMER_O4
+  provider contracts odata_v4_ui {
+  expose ZC_CS17_CUSTOMER   as Customer;
+  expose ZC_CS17_ORDERS     as Orders;
+  expose ZC_CS17_OrderItems as Orderitems;
 }

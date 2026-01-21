@@ -44,7 +44,7 @@ ENDMETHOD.
 *        e_result  = abap_false.
 *      ENDIF.
 *    ENDIF.
-*
+
   ENDMETHOD.
 
   METHOD zif_cs4_customer~Numberof_NewPostedRecords.
@@ -52,7 +52,15 @@ ENDMETHOD.
   ENDMETHOD.
 
   METHOD zif_cs4_customer~IncorrectData_Import.
-
+    c_Result = abap_True.
+    c_Exception-client = sy-mandt.
+    c_Exception-Exc_ID = cl_system_uuid=>create_uuid_x16_static( ).
+    c_Exception-log_date = sy-datum.
+    c_Exception-log_tim = sy-timlo.
+    INSERT zcs04_exception FROM @c_Exception.
+    IF sy-subrc <> 0.
+      c_result  = abap_false.
+    ENDIF.
   ENDMETHOD.
 
 ENDCLASS.

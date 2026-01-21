@@ -14,17 +14,38 @@ CLASS zcl_cs4_importcustomer DEFINITION
           c_Exception TYPE zcs04_exception,
       Post_InfoTbl
         CHANGING
-          c_Result    TYPE abap_bool
-          c_Info TYPE zcs04_info,
-      Get_CustomerId
+          c_Result TYPE abap_bool
+          c_Info   TYPE zcs04_info,
+      Get_OrderItemid
         IMPORTING
-          i_Object    TYPE  char10
+                  i_Object         TYPE  char10
         EXPORTING
-          e_Result    TYPE abap_bool
+                  e_Result         TYPE abap_bool
         RETURNING VALUE(CusomerID) TYPE  zcustomerid04
         RAISING
-          cx_static_check
-
+                  cx_static_check,
+      Get_CustomerId
+        IMPORTING
+                  i_Object         TYPE  char10
+        EXPORTING
+                  e_Result         TYPE abap_bool
+        RETURNING VALUE(CusomerID) TYPE  zcustomerid04
+        RAISING
+                  cx_static_check,
+      checkcustomerNamen
+        IMPORTING
+          i_customer TYPE zcs04_filedata
+        EXPORTING
+          e_Result         TYPE abap_bool
+          e_message        type char256,
+      Get_Numberid
+        IMPORTING
+                  i_Object         TYPE  char10
+        EXPORTING
+                  e_Result         TYPE abap_bool
+        RETURNING VALUE(CusomerID) TYPE  zcustomerid04
+        RAISING
+                  cx_static_check
         .
     METHODS : check_fields
       IMPORTING
@@ -124,7 +145,6 @@ CLASS zcl_cs4_importcustomer IMPLEMENTATION.
     FIELD-SYMBOLS <fs_value> TYPE any.
     lo_struct ?= cl_abap_structdescr=>describe_by_name( i_tblname ).
     lt_comp = lo_struct->get_components( ).
-
     LOOP AT lt_comp INTO ls_comp.
       IF ls_comp-type->kind <> cl_abap_typedescr=>kind_elem.
         CONTINUE.
@@ -154,6 +174,8 @@ CLASS zcl_cs4_importcustomer IMPLEMENTATION.
       FROM zcs04_customers
       WHERE company  = @i_customer-company
         AND city     = @i_customer-city
+        AND first_name  = @i_customer-first_name
+        AND last_name   = @i_customer-last_name
         AND street   = @i_customer-street
         AND postcode = @i_customer-postcode
       INTO @DATA(lv_existing).
@@ -306,6 +328,37 @@ CLASS zcl_cs4_importcustomer IMPLEMENTATION.
   ENDMETHOD.
 
 
+  METHOD get_OrderItemid.
+    e_result = abap_true.
+*            cl_numberrange_intervals=>create(
+*                EXPORTING
+*                 object   = 'ZCS4_OrdI'
+*                  interval = VALUE #(
+*                 ( nrrangenr  = '01'        " Interval number
+*                 fromnumber = '001'    " Start
+*                 tonumber   = '999'    " End
+*                 externind  = space )  " Internal number range
+*                )
+*              ).
+    cl_numberrange_runtime=>number_get(
+      EXPORTING
+      object =  'ZCS4_OrdI'
+      subobject = space
+      nr_range_nr = '01'
+      IMPORTING
+        number = DATA(l_number)
+    ).
+    CusomerID = l_number.
+    IF strlen( l_number ) < 3.
+      CusomerID = l_number.
+    ELSE.
+      CusomerID = substring(
+                   val = l_number
+                   off = 17
+                   len = 3 ).
+    ENDIF.
+  ENDMETHOD.
+
   METHOD get_customerid.
     e_result = abap_true.
 *            cl_numberrange_intervals=>create(
@@ -321,6 +374,37 @@ CLASS zcl_cs4_importcustomer IMPLEMENTATION.
     cl_numberrange_runtime=>number_get(
       EXPORTING
       object =  'ZCS4_NUR' "'Z17_NURANG'
+      subobject = space
+      nr_range_nr = '01'
+      IMPORTING
+        number = DATA(l_number)
+    ).
+    CusomerID = l_number.
+    IF strlen( l_number ) < 6.
+      CusomerID = l_number.
+    ELSE.
+      CusomerID = substring(
+                   val = l_number
+                   off = 14
+                   len = 6 ).
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD get_Numberid.
+    e_result = abap_true.
+*            cl_numberrange_intervals=>create(
+*                EXPORTING
+*                 object   = 'ZCS4_NUR'
+*                  interval = VALUE #(
+*                 ( nrrangenr  = '01'        " Interval number
+*                 fromnumber = '000001'    " Start
+*                 tonumber   = '999999'    " End
+*                 externind  = space )  " Internal number range
+*                )
+*              ).
+    cl_numberrange_runtime=>number_get(
+      EXPORTING
+      object =  'ZCS4_Ord'
       subobject = space
       nr_range_nr = '01'
       IMPORTING
@@ -377,18 +461,43 @@ CLASS zcl_cs4_importcustomer IMPLEMENTATION.
   ).
   ENDMETHOD.
 
+  METHOD checkcustomerNamen.
+  try.
+    e_result = abap_true.
+    clear e_message.
+   SELECT SINGLE * FROM zcs04_customers
+  WHERE company    = left( @i_customer-company, 60 )
+    AND first_name = @i_customer-first_name
+    AND last_name  = @i_customer-last_name
+    AND city       = left( @i_customer-city, 30 )
+    AND street     = left( @i_customer-street, 50 )
+    AND postcode   = left( @i_customer-postcode, 8 )
+  INTO @DATA(ls_Temp).
+    IF sy-subrc = 0.
+      e_result = abap_false.
+    enDIF.
+        CATCH cx_root INTO DATA(lx_post).
+        e_result  = abap_false.
+        e_message = lx_post->get_longtext( ).
+    endtry.
+  ENDMETHOD.
+
   METHOD insert_filerow.
     e_result = abap_true.
     CLEAR e_message.
     SELECT SINGLE * FROM zcs04_filedata
                  WHERE company = @ls_customer-company AND
+                      first_name = @ls_customer-first_name AND last_name = @ls_customer-last_name AND
                       city = @ls_customer-city AND street = @ls_customer-street AND
                       postcode = @ls_customer-postcode AND
                       medium = @ls_customer-medium AND  mvalue1 = @ls_customer-mvalue1 AND
                       mvalue2 = @ls_customer-mvalue2 INTO @DATA(ls_Temp).
     IF sy-subrc = 0.
-      e_result = abap_false.
-      RETURN.
+      checkcustomernamen( EXPORTING i_customer = ls_customer IMPORTING e_result = e_result e_message = e_message ).
+      if e_result = abap_false.
+        e_result = abap_false.
+        RETURN.
+      ENDIF.
     ENDIF.
     CASE to_upper( ls_customer-medium ).
       WHEN  'EMAIL'.

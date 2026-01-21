@@ -1,14 +1,77 @@
-class ZCL_STATISTICS_IMP2_04 definition
-  public
-  final
-  create public .
+CLASS zcl_statistics_imp2_04 DEFINITION
+  PUBLIC
+  FINAL
+  CREATE PUBLIC .
 
-public section.
-protected section.
-private section.
+  PUBLIC SECTION.
+    INTERFACES :
+      zif_statistics04.
+  PROTECTED SECTION.
+  PRIVATE SECTION.
 ENDCLASS.
 
 
 
-CLASS ZCL_STATISTICS_IMP2_04 IMPLEMENTATION.
+CLASS zcl_statistics_imp2_04 IMPLEMENTATION.
+
+  METHOD zif_statistics04~averagesales.
+    TRY.
+        sales_avg = 0.
+        SELECT SINGLE
+          FROM ZCDS04_Salesaverage
+          FIELDS SalesAVG
+          WHERE Customer = @i_customerid
+          INTO @DATA(ls_result).
+        IF sy-subrc = 0.
+          sales_avg = ls_result + 50.
+        ELSE.
+          sales_avg = 0.
+        ENDIF.
+      CATCH cx_sy_open_sql_error INTO DATA(lo_exc).
+        RAISE EXCEPTION TYPE zcl_17_customer_error
+          EXPORTING
+            previous = lo_exc.
+    ENDTRY.
+
+  ENDMETHOD.
+
+  METHOD zif_statistics04~daysales.
+    TRY.
+        Sales_DAY = 0.
+        SELECT SINGLE
+          FROM ZCDS04_SALESDaily
+          FIELDS SalesDaily
+          INTO @DATA(ls_result).
+        IF sy-subrc = 0.
+          Sales_DAY = ls_result + 500.
+        ELSE.
+          Sales_DAY = 0.
+        ENDIF.
+      CATCH cx_sy_open_sql_error INTO DATA(lo_exc).
+        RAISE EXCEPTION TYPE zcl_17_customer_error
+          EXPORTING
+            previous = lo_exc.
+    ENDTRY.
+  ENDMETHOD.
+
+  METHOD zif_statistics04~maxsales.
+    TRY.
+        Sales_MAX = 0.
+        SELECT SINGLE
+          FROM ZCDS04_SALESMAX
+          FIELDS SalesMAX
+          WHERE Customer = @i_customerid
+          INTO @DATA(ls_result).
+        IF sy-subrc = 0.
+          Sales_MAX = ls_result + 250.
+        ELSE.
+          Sales_MAX = 0.
+        ENDIF.
+      CATCH cx_sy_open_sql_error INTO DATA(lo_exc).
+        RAISE EXCEPTION TYPE zcl_17_customer_error
+          EXPORTING
+            previous = lo_exc.
+    ENDTRY.
+  ENDMETHOD.
+
 ENDCLASS.

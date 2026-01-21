@@ -11,7 +11,7 @@
   
 define view entity ZCS04_CStatus as select from ZCS4_DStatus
 {
-  key value_low as Status,
+  key Status as Status,
       @Semantics.text: true
       text as Text
 }

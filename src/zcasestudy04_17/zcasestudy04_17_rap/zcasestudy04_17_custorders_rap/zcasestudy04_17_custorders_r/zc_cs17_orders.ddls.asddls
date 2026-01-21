@@ -1,103 +1,104 @@
 @Metadata.allowExtensions: true
 @Metadata.ignorePropagatedAnnotations: true
-@Endusertext: {
-  Label: 'Customer Orders'
+@EndUserText: {
+  label: 'Customer Orders'
 }
 @AccessControl.authorizationCheck: #MANDATORY
 define view entity ZC_CS17_ORDERS
-  as projection on ZR_CS17_ORDERS
-  association [1..1] to ZR_CS17_ORDERS as _BaseEntity on $projection.CUSTOMERID = _BaseEntity.CUSTOMERID and $projection.ORDERID = _BaseEntity.ORDERID
+  as projection on ZR_CS17_Orders
+  association [1..1] to ZR_CS17_Orders as _BaseEntity on $projection.Customerid = _BaseEntity.Customerid and $projection.Orderid = _BaseEntity.Orderid
 {
-  @Endusertext: {
-    Label: 'Kundennummer', 
-    Quickinfo: 'CustomerID'
+  @EndUserText: {
+    label: 'Kundennummer', 
+    quickInfo: 'CustomerID'
   }
   key Customerid,
-  @Endusertext: {
-    Label: 'Bestellnummer', 
-    Quickinfo: 'Bestellnummer'
+  @EndUserText: {
+    label: 'Bestellnummer', 
+    quickInfo: 'Bestellnummer'
   }
   key Orderid,
-  @Endusertext: {
-    Label: 'Datum der Bestellung', 
-    Quickinfo: 'Datum der Bestellung'
+  @EndUserText: {
+    label: 'Datum der Bestellung', 
+    quickInfo: 'Datum der Bestellung'
   }
   OrderDate,
-  @Endusertext: {
-    Label: 'Summe der Bestellung', 
-    Quickinfo: 'Summe der Bestellung'
+  @EndUserText: {
+    label: 'Summe der Bestellung', 
+    quickInfo: 'Summe der Bestellung'
   }
   @Semantics: {
-    Amount.Currencycode: 'Currency'
+    amount.currencyCode: 'Currency'
   }
   OrderTotal,
-  @Endusertext: {
-    Label: 'Rabat', 
-    Quickinfo: 'Rabat'
+  @EndUserText: {
+    label: 'Rabat', 
+    quickInfo: 'Rabat'
   }
   Discount,
-  @Endusertext: {
-    Label: 'Info', 
-    Quickinfo: 'Info'
+  @EndUserText: {
+    label: 'Info', 
+    quickInfo: 'Info'
   }
   Info,
-  @Endusertext: {
-    Label: 'Status Bestellung', 
-    Quickinfo: 'Status der Bestellung (BO, BB, BA, BN)'
+  @EndUserText: {
+    label: 'Status Bestellung', 
+    quickInfo: 'Status der Bestellung (BO, BB, BA, BN)'
   }
   Status,
   @Consumption: {
-    Valuehelpdefinition: [ {
-      Entity.Element: 'Currency', 
-      Entity.Name: 'I_CurrencyStdVH', 
-      Useforvalidation: true
+    valueHelpDefinition: [ {
+      entity.element: 'Currency', 
+      entity.name: 'I_CurrencyStdVH', 
+      useForValidation: true
     } ]
   }
-  @Endusertext: {
-    Label: 'Währung', 
-    Quickinfo: 'Währung'
+  @EndUserText: {
+    label: 'Währung', 
+    quickInfo: 'Währung'
   }
   Currency,
-  @Endusertext: {
-    Label: 'Created By', 
-    Quickinfo: 'Created By User'
+  @EndUserText: {
+    label: 'Created By', 
+    quickInfo: 'Created By User'
   }
   @Semantics: {
-    User.Createdby: true
+    user.createdBy: true
   }
   LocalCreatedBy,
-  @Endusertext: {
-    Label: 'Created On', 
-    Quickinfo: 'Creation Date Time'
+  @EndUserText: {
+    label: 'Created On', 
+    quickInfo: 'Creation Date Time'
   }
   @Semantics: {
-    Systemdatetime.Createdat: true
+    systemDateTime.createdAt: true
   }
   LocalCreatedAt,
-  @Endusertext: {
-    Label: 'Changed By', 
-    Quickinfo: 'Local Instance Last Changed By User'
+  @EndUserText: {
+    label: 'Changed By', 
+    quickInfo: 'Local Instance Last Changed By User'
   }
   @Semantics: {
-    User.Localinstancelastchangedby: true
+    user.localInstanceLastChangedBy: true
   }
   LocalLastChangedBy,
-  @Endusertext: {
-    Label: 'Changed On', 
-    Quickinfo: 'Local Instance Last Change Date Time'
+  @EndUserText: {
+    label: 'Changed On', 
+    quickInfo: 'Local Instance Last Change Date Time'
   }
   @Semantics: {
-    Systemdatetime.Localinstancelastchangedat: true
+    systemDateTime.localInstanceLastChangedAt: true
   }
   LocalLastChangedAt,
-  @Endusertext: {
-    Label: 'Changed On', 
-    Quickinfo: 'Last Change Date Time'
+  @EndUserText: {
+    label: 'Changed On', 
+    quickInfo: 'Last Change Date Time'
   }
   @Semantics: {
-    Systemdatetime.Lastchangedat: true
+    systemDateTime.lastChangedAt: true
   }
   LastChangedAt,
   _Customer : redirected to parent ZC_CS17_CUSTOMER,
+   _Orderitems : redirected to composition child ZC_CS17_OrderItems,
   _BaseEntity
 }

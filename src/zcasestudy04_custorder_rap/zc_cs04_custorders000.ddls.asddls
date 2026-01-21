@@ -1,54 +1,58 @@
 @Metadata.allowExtensions: true
 @Metadata.ignorePropagatedAnnotations: true
-@Endusertext: {
-  Label: '###GENERATED Core Data Service Entity'
+@EndUserText: {
+  label: '###GENERATED Core Data Service Entity'
 }
-@Objectmodel: {
-  Sapobjectnodetype.Name: 'ZCS04_CUSTORDERS'
+@ObjectModel: {
+  sapObjectNodeType.name: 'ZCS04_CUSTORDERS'
 }
 @AccessControl.authorizationCheck: #MANDATORY
 define root view entity ZC_CS04_CUSTORDERS000
-  provider contract TRANSACTIONAL_QUERY
+  provider contract transactional_query
   as projection on ZR_CS04_CUSTORDERS
-  association [1..1] to ZR_CS04_CUSTORDERS as _BaseEntity on $projection.CUSTOMERID = _BaseEntity.CUSTOMERID and $projection.ORDERID = _BaseEntity.ORDERID
+  association [1..1] to ZR_CS04_CUSTORDERS as _BaseEntity on $projection.Customerid = _BaseEntity.Customerid and $projection.Orderid = _BaseEntity.Orderid
 {
   key Customerid,
   key Orderid,
   OrderDate,
   @Semantics: {
-    Amount.Currencycode: 'Currency'
+    amount.currencyCode: 'Currency'
   }
   OrderTotal,
   Discount,
   Info,
+  @UI.textArrangement: #TEXT_ONLY 
+  @ObjectModel.text.element: [ 'StatusText' ]          
   Status,
+  _StatusText.text as StatusText,
   @Consumption: {
-    Valuehelpdefinition: [ {
-      Entity.Element: 'Currency', 
-      Entity.Name: 'I_CurrencyStdVH', 
-      Useforvalidation: true
+    valueHelpDefinition: [ {
+      entity.element: 'Currency', 
+      entity.name: 'I_CurrencyStdVH', 
+      useForValidation: true
     } ]
   }
   Currency,
   @Semantics: {
-    User.Createdby: true
+    user.createdBy: true
   }
   LocalCreatedBy,
   @Semantics: {
-    Systemdatetime.Createdat: true
+    systemDateTime.createdAt: true
   }
   LocalCreatedAt,
   @Semantics: {
-    User.Localinstancelastchangedby: true
+    user.localInstanceLastChangedBy: true
   }
   LocalLastChangedBy,
   @Semantics: {
-    Systemdatetime.Localinstancelastchangedat: true
+    systemDateTime.localInstanceLastChangedAt: true
   }
   LocalLastChangedAt,
   @Semantics: {
-    Systemdatetime.Lastchangedat: true
+    systemDateTime.lastChangedAt: true
   }
   LastChangedAt,
-  _BaseEntity
+  _BaseEntity, 
+  _StatusText
 }

@@ -21,7 +21,7 @@ authorization master ( global )
   LastChangedAt;
 
   field ( readonly )
-  Customerid, SalesVolumeTarget, City;
+  Customerid, SalesVolumeTarget, City, SalesVolume;
 
   create;
   update;

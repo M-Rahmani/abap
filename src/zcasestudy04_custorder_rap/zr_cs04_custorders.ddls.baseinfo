@@ -6,7 +6,9 @@
 "ZCS04_CUSTORDERS"
 ],
 "ASSOCIATED":
-[],
+[
+"ZI_ZDSTATUS04TEXT"
+],
 "BASE":
 [],
 "ANNO_REF":

@@ -11,6 +11,14 @@ annotate view ZC_CS17_ORDERS with
     purpose: #STANDARD, 
     position: 10 , 
     type: #IDENTIFICATION_REFERENCE
+  },
+  {
+    label: 'Orders Items', 
+    id: 'OrdersItems', 
+    purpose: #STANDARD, 
+    position: 11 , 
+    type: #LINEITEM_REFERENCE, 
+    targetElement: '_Orderitems'
   } ]
   @UI.identification: [ {
     position: 10 

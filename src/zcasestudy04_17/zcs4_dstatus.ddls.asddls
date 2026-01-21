@@ -15,7 +15,8 @@ define view entity ZCS4_DStatus as select from
   key value_position,
       @Semantics.language: true
 //  key language,
-      value_low,     
+  @ObjectModel.text.element: [ 'text' ]
+      value_low as Status,     
       @Semantics.text: true
       text
 }   

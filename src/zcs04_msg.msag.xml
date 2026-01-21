@@ -80,6 +80,18 @@
      <MSGNR>012</MSGNR>
      <TEXT>Id: &amp;1;AVGS:&amp;2;MaxS:&amp;3;DailyS:&amp;4</TEXT>
     </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZCS04_MSG</ARBGB>
+     <MSGNR>013</MSGNR>
+     <TEXT>Set default values errors : &amp;1</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>E</SPRSL>
+     <ARBGB>ZCS04_MSG</ARBGB>
+     <MSGNR>014</MSGNR>
+     <TEXT>Discount must be between 0 and 100 percent : &amp;1</TEXT>
+    </T100>
    </T100>
   </asx:values>
  </asx:abap>

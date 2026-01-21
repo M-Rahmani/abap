@@ -11,11 +11,11 @@ define view entity ZCDS04_SALESDAILY
   @Semantics.amount.currencyCode: 'currency'
   case
   when cast( ( dats_days_between( cast( concat( _FiscalYear.cvalue, '0101' ) as abap.dats ),
-         cast( $session.system_date as abap.dats ) ) ) as abap.int4 )  = 0 then 0
+         cast( $session.system_date as abap.dats ) ) + 1 ) as abap.int4 )  = 0 then 0
   else cast(
      sum( cast( OrderTotalEUR as  abap.fltp ) ) / cast( ( dats_days_between( cast( concat( _FiscalYear.cvalue, '0101' )
      as abap.dats ),
-         cast( $session.system_date as abap.dats ) ) ) as abap.fltp )
+         cast( $session.system_date as abap.dats ) ) + 1 ) as abap.fltp )
     as abap.dec( 15, 2 )
   )
   end                                                      as SalesDaily,

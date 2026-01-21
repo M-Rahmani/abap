@@ -17,4 +17,4 @@ define view entity zcs04_max_umsatz as select from zcs04_customers_c_list
    max( OrderTotal) as MaxOrderTotal,
     Currency
 
-} group by Currency, Customerid, Company
+}  group by Currency, Customerid, Company

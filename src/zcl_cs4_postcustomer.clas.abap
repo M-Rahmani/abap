@@ -123,8 +123,13 @@ CLASS zcl_cs4_postcustomer IMPLEMENTATION.
                 new_email  = ls_source-email
             ).
             IF i_checkflag = abap_false.
-              "insert into table exception i_checkmessage
+              clear ls_Exception.
+              ls_Exception-exception_type = gc_info.
+              ls_Exception-incorrectvalue = ls_source-email.
+              ls_Exception-info_message = | Email Address is invalid |.
               ls_source-memo = i_checkmessage.
+              lo_CheckCustomer->post_exception( CHANGING c_Exception = ls_Exception c_result = i_checkflag ).
+              i_checkflag = abap_true.
             ENDIF.
 
             IF i_DuplicateID IS NOT INITIAL.

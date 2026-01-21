@@ -1,7 +1,8 @@
 //@AbapCatalog.viewEnhancementCategory: [#NONE]
 @AbapCatalog: {dataMaintenance: #RESTRICTED, viewEnhancementCategory: [ #PROJECTION_LIST ],
 extensibility.dataSources: [ 'customerr' ], extensibility.elementSuffix: 'ZVP'}
-@AccessControl.authorizationCheck: #CHECK
+@AccessControl.authorizationCheck: #CHECK   //PLZ : 22000-22200
+////@AccessControl.authorizationCheck: #NOT_ALLOWED
 @EndUserText.label: 'CDS-View für die Kundendaten'
 @Metadata.ignorePropagatedAnnotations: true
 @ObjectModel.usageType:{

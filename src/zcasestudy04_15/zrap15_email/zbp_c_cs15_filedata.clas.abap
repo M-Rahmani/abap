@@ -1,6 +1,8 @@
 class ZBP_C_CS15_FILEDATA definition
   public
-  create private .
+  abstract
+  final
+  for behavior of ZC_CS15_FILEDATA000 .
 
 public section.
 protected section.

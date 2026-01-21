@@ -1,0 +1,11 @@
+@EndUserText.label: 'Access-Controll für Fiori'
+@MappingRole: true
+define role ZCS04_AUT_PLZ_FIORI {
+    grant 
+        select
+            on
+                ZR_CS04_CUSTOMERS
+                    where
+                        ( Postcode )  = aspect pfcg_auth( ZCS04AOPLZ, ZCS04AFPLZ, ACTVT = '03' );
+                        
+}

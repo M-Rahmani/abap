@@ -16,7 +16,9 @@ c.Customerid = co.Customerid
    co.Orderid,
     @Semantics.amount.currencyCode : 'Currency'
    co.OrderTotal,
-   co.Currency
+   co.Currency,
+   co.Status
     /* Associations */
     
-}
+} 
+
