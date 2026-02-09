@@ -148,37 +148,41 @@ CLASS zcs4_17_global_class IMPLEMENTATION.
 * COMMIT WORK.
 *data lt_table type table of zcs04_customers.
 *select * from zcs04_customers where  local_last_changed_at is iniTIAL into table @lt_table.
+*
+*data : i_Object type char13.
+* i_Object = 'ZCS4_Ord'.
+*
+*            cl_numberrange_intervals=>create(
+*                EXPORTING
+*                 object   = 'ZCS4_Ord'
+*                  interval = VALUE #(
+*                 ( nrrangenr  = '01'        " Interval number
+*                 fromnumber = '000001'    " Start
+*                 tonumber   = '999999'    " End
+*                 externind  = space )  " Internal number range
+*                )
+*              ).
+*    cl_numberrange_runtime=>number_get(
+*      EXPORTING
+*      object =  'ZCS4_Ord'
+*      subobject = space
+*      nr_range_nr = '01'
+*      IMPORTING
+*        number = DATA(l_number)
+*    ).
+*    data(CusomerID) = l_number.
+*    IF strlen( l_number ) < 6.
+*      CusomerID = l_number.
+*    ELSE.
+*      CusomerID = substring(
+*                   val = l_number
+*                   off = 14
+*                   len = 6 ).
+*    ENDIF.
 
-data : i_Object type char13.
- i_Object = 'ZCS4_Ord'.
-
-            cl_numberrange_intervals=>create(
-                EXPORTING
-                 object   = 'ZCS4_Ord'
-                  interval = VALUE #(
-                 ( nrrangenr  = '01'        " Interval number
-                 fromnumber = '000001'    " Start
-                 tonumber   = '999999'    " End
-                 externind  = space )  " Internal number range
-                )
-              ).
-    cl_numberrange_runtime=>number_get(
-      EXPORTING
-      object =  'ZCS4_Ord'
-      subobject = space
-      nr_range_nr = '01'
-      IMPORTING
-        number = DATA(l_number)
-    ).
-    data(CusomerID) = l_number.
-    IF strlen( l_number ) < 6.
-      CusomerID = l_number.
-    ELSE.
-      CusomerID = substring(
-                   val = l_number
-                   off = 14
-                   len = 6 ).
-    ENDIF.
+  data text1 type string value '    Abcds ef_hgjh  '.
+  data(text2) = condense( val = text1 del = '' ).
+  out->write( text2 ).
 
 endmETHOD.
 ENDCLASS.

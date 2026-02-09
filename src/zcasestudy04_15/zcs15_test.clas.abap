@@ -16,20 +16,54 @@ CLASS zcs15_test IMPLEMENTATION.
 
   METHOD if_oo_adt_classrun~main.
 
-  DATA cnt TYPE i.
+daTA res tYPE i.
 
-SELECT count( * )
-  FROM ztl_04_casestudy
-  into @cnt.
+res = find( val = 'find Found FOUND' sub = 'F' occ = -2  ).
 
-out->write( cnt ).
+out->write( '1-' && res ).
+
+res = find( val = 'FIND FOUND FOUND' sub = 'F' )  .
+out->write( '2-' && res ).
+*Richtige Antwort
+res = find( val = 'FIND Found found' sub = 'F' occ = -2 CASE = abap_true ).
+out->write( '3R-' && res ).
+
+res = find( val = 'find FOUND Found' sub = 'F' occ = -2 CASE = abap_false ).
+out->write( '4-' && res ).
+
+res = find( val = 'abapABAP'
+            sub = 'A'
+            occ = 2
+            case = 'X').
+out->write( '5 neu -' && res ).
+res = find_any_of( val ='ABAP ABAP abap' sub = 'AB' ).
+out->write( 'find_any_of--' && res         ).
+res =  count_any_of( val ='ABAP ABAP abap' sub = 'AB' ).
+out->write( 'count_any_of--' && res       ).
+res = count( val ='ABAP ABAP abap' sub = 'AB' ) .
+out->write( 'count--'   && res             ).
+res = find_any_not_of( val ='ABAP ABAP abap' sub = 'AB' ).
+out->write( 'find_any_not_of--'  && res    ).
+
+data: int type i.
+int = 5 / 10.
+out->write(  int ).
 
 
-SELECT count( * )
-  FROM zcs04_filedata
-  into @cnt.
-
-out->write( cnt ).
+*  DATA cnt TYPE i.
+*
+*SELECT count( * )
+*  FROM ztl_04_casestudy
+*  into @cnt.
+*
+*out->write( cnt ).
+*
+*
+*SELECT count( * )
+*  FROM zcs04_filedata
+*  into @cnt.
+*
+*out->write( cnt ).
 
 *DATA: lv_csv    TYPE string,
 *      lt_fields TYPE STANDARD TABLE OF string,

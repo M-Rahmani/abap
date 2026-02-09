@@ -286,8 +286,6 @@ CLASS lhc_zr_cs04_customers IMPLEMENTATION.
         ENDIF.
       ENDIF.
     ENDLOOP.
-
-
   ENDMETHOD.
 
   METHOD cancelorders.

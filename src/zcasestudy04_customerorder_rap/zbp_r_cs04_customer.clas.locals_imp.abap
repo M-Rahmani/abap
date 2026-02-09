@@ -140,6 +140,7 @@ CLASS lhc_customer IMPLEMENTATION.
       IF ls_Order-Discount < 0 OR ls_Order-Discount > 100.
         APPEND VALUE #( %tky = ls_Order-%tky ) TO failed-orders.
         APPEND VALUE #( %tky = ls_Order-%tky
+                        %element-Discount = if_abap_behv=>mk-on
                             %msg = new_message( id = 'ZCS04_MSG'
                                                 number = '014'
                                                 severity = if_abap_behv_message=>severity-error
@@ -340,29 +341,19 @@ CLASS lhc_customer IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD validate_email.
-
+    DATA failed_record LIKE LINE OF failed-customer.
     READ ENTITIES OF zr_cs04_customer IN LOCAL MODE
      ENTITY  Customer
      FIELDS ( Email )
      WITH CORRESPONDING #( keys )
      RESULT DATA(customers).
-
     DATA e_Result TYPE abap_bool  VALUE abap_true.
     DATA: lv_pattern TYPE string VALUE
             '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$',
           lo_matcher TYPE REF TO cl_abap_matcher.
-
-
-
     LOOP AT customers ASSIGNING FIELD-SYMBOL(<cust>).
 
       DATA(lv_email) = <cust>-Email.
-
-
-*    e_result  = abap_true.
-*    CLEAR e_message.
-*    new_email = i_customer-email.
-
       IF lv_email IS NOT INITIAL.
         TRY.
             lo_matcher = cl_abap_matcher=>create(
@@ -373,13 +364,14 @@ CLASS lhc_customer IMPLEMENTATION.
         ENDTRY.
         IF lo_matcher->match( ) = abap_false.
           reported-customer = VALUE #( (  %tky = <cust>-%tky
+                                            %element-email = if_abap_behv=>mk-on
                                             %msg = new_message(
                                              id = 'ZMSG15'
                                              number = '001'
                                              severity = if_abap_behv_message=>severity-error
                                              v1 = <cust>-email  ) ) ).
-*        e_message = 'Email has invalid format'.
-*        e_result  = abap_false.
+            failed_record-%tky = <cust>-%tky.
+            APPEND failed_record TO failed-customer.
         ENDIF.
       ENDIF.
     ENDLOOP.

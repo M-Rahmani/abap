@@ -30,7 +30,7 @@ CLASS ltcl_test_email IMPLEMENTATION.
     APPEND VALUE #( cuid ='1'  email = 'hans.hansen@web.de' ) TO lt_file.
 
     LOOP AT lt_file INTO ls_source.
-
+*
       lo_CheckCustomer->check_emailvalidation(
               EXPORTING
                 i_customer = ls_source
